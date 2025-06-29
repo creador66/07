@@ -1,356 +1,224 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Las 3 metaetiquetas anteriores * deben * ser lo primero en la cabeza; cualquier otro contenido principal debe venir * después * de estas etiquetas -->
-  <title>PLANTILLA | WEB 4</title>
-
-  <!-- Bootstrap -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/animate.css">
-  <link href="css/animate.min.css" rel="stylesheet">
-  <link href="css/style.css" rel="stylesheet" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tarjetas Dinámicas Animadas</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link
+    rel="stylesheet"
+    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+  />
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background: #f0f0f0;
+      display: flex; flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      position: relative;
+    }
+    .instructions {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: #444;
+      font-size: 0.95rem;
+    }
+    #card-container {
+      max-width: 360px; width: 100%;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .card {
+      width: 100%;
+      aspect-ratio: 16/10;
+      border-radius: 16px;
+      color: #fff;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      overflow: hidden;
+      animation: float 6s ease-in-out infinite;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+    }
+    .card.azteca {
+      background: linear-gradient(135deg, #ffe000 0%, #ff7f50 100%);
+    }
+    .card.banorte {
+      background: linear-gradient(135deg, #e60012 0%, #c10010 100%);
+    }
+    .card.bbva {
+      background: linear-gradient(135deg, #003087 0%, #007fff 100%);
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .bank-name { font-size: 1rem; font-weight: 700; letter-spacing: 1px; }
+    .logo {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      font-size: 1.8rem;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover .logo { opacity: 1; }
+    .chip {
+      width: 12%; min-width: 40px;
+      aspect-ratio: 5/4;
+      background: #e0e0e0;
+      border-radius: 4px;
+      margin: 1rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .chip::after {
+      content: "";
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: rgba(255,255,255,0.5);
+      transform: skewX(-30deg);
+      animation: shine 2s infinite;
+    }
+    @keyframes shine {
+      0%   { left: -100%; }
+      50%  { left: 100%; }
+      100% { left: 100%; }
+    }
+    .account-number {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      font-weight: 500;
+      cursor: pointer;
+    }
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .card-holder .label {
+      font-size: 0.6rem;
+      text-transform: uppercase;
+      opacity: 0.8;
+      letter-spacing: 0.5px;
+    }
+    .card-holder .name {
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .phone {
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: white;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+    .card:hover .phone { color: #ffd700; }
+    .phone i { margin-right: 0.4rem; }
+    #modal {
+      position: fixed;
+      top: 20px; left: 50%;
+      transform: translateX(-50%);
+      background: #333;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 8px;
+      display: none;
+      z-index: 999;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    /* Footer */
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.85rem;
+      color: #888;
+      text-align: center;
+    }
+  </style>
 </head>
-
 <body>
-  <header id="header">
-    <nav class="navbar navbar-default navbar-static-top" role="banner">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-          <div class="navbar-brand">
-            <a href="index.html"><h1>ProOnliPc</h1></a>
-          </div>
-        </div>
-        <div class="navbar-collapse collapse">
-          <div class="menu">
-            <ul class="nav nav-tabs" role="tablist">
-              <li role="presentation"><a href="index.html" class="active">Home</a></li>
-              <li role="presentation"><a href="about.html">About Us</a></li>
-              <li role="presentation"><a href="services.html">Services</a></li>
-              <li role="presentation"><a href="gallery.html">Gallery</a></li>
-              <li role="presentation"><a href="contact.html">Contact</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <!--/.container-->
-    </nav>
-    <!--/nav-->
-  </header>
-  <!--/header-->
 
-  <div class="slider">
-    <div id="about-slider">
-      <div id="carousel-slider" class="carousel slide" data-ride="carousel">
-        <!-- Indicators -->
-        <ol class="carousel-indicators visible-xs">
-          <li data-target="#carousel-slider" data-slide-to="0" class="active"></li>
-          <li data-target="#carousel-slider" data-slide-to="1"></li>
-          <li data-target="#carousel-slider" data-slide-to="2"></li>
-        </ol>
-
-        <div class="carousel-inner">
-          <div class="item active">
-            <img src="img/slide.jpg" class="img-responsive" alt="">
-            <div class="carousel-caption">
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
-                <h2><span>Suscribete para mas contenido</span></h2>
-              </div>
-              <div class="col-md-10 col-md-offset-1">
-                <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.6s">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-                </div>
-              </div>
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <button type="livedemo" name="Live Demo" class="btn btn-primary btn-lg" required="required">Suscribete</button>
-                  </div>
-                  <div class="form-group">
-                    <button type="getnow" name="Get Now" class="btn btn-primary btn-lg" required="required">Like al Video</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-
-          <div class="item">
-            <img src="img/slide.jpg" class="img-responsive" alt="">
-            <div class="carousel-caption">
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="1.0s">
-                <h2>Fully Responsive</h2>
-              </div>
-              <div class="col-md-10 col-md-offset-1">
-                <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.6s">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-                </div>
-              </div>
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="1.6s">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <button type="livedemo" name="purchase" class="btn btn-primary btn-lg" required="required">Live Demo</button>
-                  </div>
-                  <div class="form-group">
-                    <button type="getnow" name="subscribe" class="btn btn-primary btn-lg" required="required">Get Now</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="item">
-            <img src="img/slide.jpg" class="img-responsive" alt="">
-            <div class="carousel-caption">
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.3s">
-                <h2>Modern Design</h2>
-              </div>
-              <div class="col-md-10 col-md-offset-1">
-                <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.6s">
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-                </div>
-              </div>
-              <div class="wow fadeInUp" data-wow-offset="0" data-wow-delay="0.9s">
-                <form class="form-inline">
-                  <div class="form-group">
-                    <button type="livedemo" name="purchase" class="btn btn-primary btn-lg" required="required">Live Demo</button>
-                  </div>
-                  <div class="form-group">
-                    <button type="getnow" name="subscribe" class="btn btn-primary btn-lg" required="required">Get Now</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <a class="left carousel-control hidden-xs" href="#carousel-slider" data-slide="prev">
-					<i class="fa fa-angle-left"></i>
-				</a>
-
-        <a class=" right carousel-control hidden-xs" href="#carousel-slider" data-slide="next">
-					<i class="fa fa-angle-right"></i>
-				</a>
-      </div>
-      <!--/#carousel-slider-->
-    </div>
-    <!--/#about-slider-->
-  </div>
-  <!--/#slider-->
-
-  <div class="about">
-    <div class="container">
-      <div class="text-center">
-        <h2>Quaerat quod voluptate consequuntur </h2>
-        <div class="col-md-10 col-md-offset-1">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat quod voluptate consequuntur ad quasi, dolores obcaecati ex aliquid, dolor provident accusamus omnis dolorum ipsam. Voluptatem ipsum expedita, corporis facilis laborum asperiores
-            nostrum! Amet porro numquam ratione temporibus quia dolorem sint lorem voluptates quasi mollitia.</p>
-        </div>
-
-        <div class="col-md-6 col-sm-6 col-xs-6">
-          <div class="btn-gamp"><a href="#">Learn More</a></div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-6">
-          <div class="gamp-btn"><a href="#">download</a></div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <hr>
-
-  <div class="services">
-    <div class="container">
-      <div class="text-center">
-        <h2>consectetur adipisicing elit</h2>
-      </div>
-      <div class="col-md-3 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-        <i class="fa fa-heart-o"></i>
-        <h3>Fully Responsive</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque inventore, quibusdam corporis consequatur amet.</p>
-      </div>
-      <div class="col-md-3 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
-        <i class="fa fa-cloud"></i>
-        <h3>Retina Ready</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque inventore, quibusdam corporis consequatur amet.</p>
-      </div>
-      <div class="col-md-3 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="900ms">
-        <i class="fa fa-book"></i>
-        <h3>Fresh and Clean</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque inventore, quibusdam corporis consequatur amet.</p>
-      </div>
-      <div class="col-md-3 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1200ms">
-        <i class="fa fa-gear"></i>
-        <h3>Easy to Customize</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum nam numquam voluptates cumque inventore, quibusdam corporis consequatur amet.</p>
-      </div>
-    </div>
+  <div class="instructions">
+    Presiona sobre el <strong>número de cuenta</strong> o el <strong>titular</strong> para copiar.<br>
+    Toca el <strong>número de teléfono</strong> para enviar mensaje por WhatsApp.
   </div>
 
-  <section class="action">
-    <div class="container">
-      <div class="left-text hidden-xs">
-        <h4>Amet porro numquam ratione</h4>
-        <p><em>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi ut explicabo magni sapiente.</em><br><br>Inventore at quia, vel in repellendus, cumque dolorem autem ad quidem mollitia porro blanditiis atque rerum debitis eveniet nostrum aliquam.
-          Sint aperiam expedita sapiente amet officia quis perspiciatis adipisci, iure dolorem esse exercitationem!</p>
-      </div>
-      <div class="right-image hidden-xs"></div>
-    </div>
-  </section>
+  <div id="card-container"></div>
+  <div id="modal">Copiado al portapapeles</div>
 
-  <div class="gallery">
-    <div class="text-center">
-      <h2>Gallery</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quaerat quod voluptate consequuntur ad quasi, dolores obcaecati ex aliquid, dolor provident </p>
-    </div>
-    <div class="container">
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/8.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/9.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/10.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
+  <!-- Footer con “IAEgo” -->
+  <div class="footer">IAEgo</div>
 
-    <div class="container">
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/11.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/12.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-      <div class="col-md-4">
-        <figure class="effect-marley">
-          <img src="img/13.jpg" alt="" class="img-responsive" />
-          <figcaption>
-            <h4>sweet marley</h4>
-            <p>Marley tried to convince her but she was not interested.</p>
-          </figcaption>
-        </figure>
-      </div>
-    </div>
-  </div>
-
-  <footer>
-    <div class="container">
-      <div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
-        <h4>About Us</h4>
-        <p>SystemDNS is tellus ac cursus commodo, mauesris condime ntum nibh, ut fermentum mas justo sitters.</p>
-        <div class="contact-info">
-          <ul>
-            <li><i class="fa fa-home fa"></i>Suite 54 Elizebth Street, Victoria State Newyork, USA </li>
-            <li><i class="fa fa-phone fa"></i> +38 000 129900</li>
-            <li><i class="fa fa-envelope fa"></i> info@domain.net</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
-        <div class="text-center">
-          <h4>Photo Gallery</h4>
-          <ul class="sidebar-gallery">
-            <li><a href="#"><img src="img/gallery1.png" alt="" /></a></li>
-            <li><a href="#"><img src="img/gallery2.png" alt="" /></a></li>
-            <li><a href="#"><img src="img/gallery3.png" alt="" /></a></li>
-            <li><a href="#"><img src="img/gallery4.png" alt="" /></a></li>
-            <li><a href="#"><img src="img/gallery5.png" alt="" /></a></li>
-            <li><a href="#"><img src="img/gallery6.png" alt="" /></a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="900ms">
-        <div class="">
-          <h4>Newsletter Registration</h4>
-          <p>Subscribe toSystemDNS to receive the latest SystemDNS news via email. You may unsubscribe from this service at any time</p>
-          <div class="btn-gamp">
-            <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Enter Email">
-          </div>
-          <div class="btn-gamp">
-            <a type="submit" class="btn btn-default">Subscribe</a>
-          </div>
-
-        </div>
-      </div>
-
-    </div>
-  </footer>
-
-  <div class="sub-footer">
-    <div class="container">
-      <div class="social-icon">
-        <div class="col-md-4">
-          <ul class="social-network">
-            <li><a href="#" class="fb tool-tip" title="Facebook"><i class="fa fa-facebook"></i></a></li>
-            <li><a href="#" class="twitter tool-tip" title="Twitter"><i class="fa fa-twitter"></i></a></li>
-            <li><a href="#" class="gplus tool-tip" title="Google Plus"><i class="fa fa-google-plus"></i></a></li>
-            <li><a href="#" class="linkedin tool-tip" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
-            <li><a href="#" class="ytube tool-tip" title="You Tube"><i class="fa fa-youtube-play"></i></a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="col-md-4 col-md-offset-4">
-        <div class="copyright">
-          &copy; ProOnliPc Theme. All Rights Reserved.
-          <div class="credits">
-        
-            <a href="https://www.youtube.com/channel/UCDH0DJaVLkCDtl_YN9hhByw?view_as=subscriber">ProOnliPc Themes</a> by <a href="https://www.youtube.com/channel/UCDH0DJaVLkCDtl_YN9hhByw?view_as=subscriber">ProOnliPc</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="js/jquery.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/wow.min.js"></script>
   <script>
-    wow = new WOW({}).init();
-  </script>
-</body>
+    const titularComun  = "Andry Mallely Martínez García";
+    const telefonoComun = "9381844237";
 
+    const cardsData = [
+      { banco: "Banco Azteca", cuenta: "4152 3140 4421 6003", clase: "azteca" },
+      { banco: "Banorte",       cuenta: "1234 5678 9012 3456", clase: "banorte" },
+      { banco: "BBVA",          cuenta: "6543 2109 8765 4321", clase: "bbva" }
+    ];
+
+    function showModal(msg) {
+      const m = document.getElementById('modal');
+      m.textContent = msg; m.style.display = 'block';
+      setTimeout(() => m.style.display = 'none', 2000);
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text)
+        .then(() => showModal(`"${text}" copiado`))
+        .catch(() => showModal("Error al copiar"));
+    }
+
+    function renderCard({ banco, cuenta, clase }) {
+      const wa = `https://wa.me/52${telefonoComun}`;
+      return `
+        <div class="card ${clase}">
+          <div>
+            <div class="bank-name">${banco}</div>
+            <div class="logo"><i class="fas fa-pizza-slice"></i></div>
+          </div>
+          <div class="chip"></div>
+          <div class="account-number" onclick="copyToClipboard('${cuenta}')">
+            Cuenta: ${cuenta}
+          </div>
+          <div class="card-footer">
+            <div class="card-holder">
+              <div class="label">Titular</div>
+              <div class="name" onclick="copyToClipboard('${titularComun}')">
+                ${titularComun}
+              </div>
+            </div>
+            <a class="phone" href="${wa}" target="_blank">
+              <i class="fa fa-phone"></i>${telefonoComun}
+            </a>
+          </div>
+        </div>
+      `;
+    }
+
+    const container = document.getElementById('card-container');
+    cardsData.forEach(c => container.insertAdjacentHTML('beforeend', renderCard(c)));
+  </script>
+
+</body>
 </html>
