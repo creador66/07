@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tarjetas Dinámicas Animadas</title>
+  <title>Tarjetas Dinámicas IAEgo</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link
@@ -71,11 +71,28 @@
     .logo {
       position: absolute;
       top: 1rem; right: 1rem;
-      font-size: 1.8rem;
-      opacity: 0.7;
+      font-size: 1rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      opacity: 0.8;
       transition: opacity 0.3s ease;
     }
     .card:hover .logo { opacity: 1; }
+    .card-type {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-top: 0.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+    .card-type i {
+      font-size: 1rem;
+    }
     .chip {
       width: 12%; min-width: 40px;
       aspect-ratio: 5/4;
@@ -145,7 +162,6 @@
       z-index: 999;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
-    /* Footer */
     .footer {
       margin-top: 2rem;
       font-size: 0.85rem;
@@ -163,9 +179,7 @@
 
   <div id="card-container"></div>
   <div id="modal">Copiado al portapapeles</div>
-
-  <!-- Footer con “IAEgo” -->
-  <div class="footer">IAEgo</div>
+  <div class="footer">© 2025 IAEgo. Todos los derechos reservados.</div>
 
   <script>
     const titularComun  = "Andry Mallely Martínez García";
@@ -195,7 +209,12 @@
         <div class="card ${clase}">
           <div>
             <div class="bank-name">${banco}</div>
-            <div class="logo"><i class="fas fa-pizza-slice"></i></div>
+            <div class="card-type">
+              <i class="fa fa-credit-card" aria-hidden="true"></i> Débito
+            </div>
+            <div class="logo">
+              <i class="fa fa-pizza-slice"></i> Pizzas Andry
+            </div>
           </div>
           <div class="chip"></div>
           <div class="account-number" onclick="copyToClipboard('${cuenta}')">
