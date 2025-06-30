@@ -3,13 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tarjetas Dinámicas IAEgo</title>
+  <title>Tarjeta Dinámica Amarilla</title>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
-  <link
-    rel="stylesheet"
-    href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
-  />
   <style>
     * {
       margin: 0; padding: 0; box-sizing: border-box;
@@ -21,7 +18,6 @@
       align-items: center;
       min-height: 100vh;
       padding: 2rem 1rem;
-      position: relative;
     }
     .instructions {
       text-align: center;
@@ -31,9 +27,6 @@
     }
     #card-container {
       max-width: 360px; width: 100%;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
     }
     .card {
       width: 100%;
@@ -49,19 +42,11 @@
       overflow: hidden;
       animation: float 6s ease-in-out infinite;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: linear-gradient(135deg, #ffe000 0%, #ff7f50 100%);
     }
     .card:hover {
       transform: translateY(-10px) scale(1.02);
       box-shadow: 0 12px 30px rgba(0,0,0,0.2);
-    }
-    .card.azteca {
-      background: linear-gradient(135deg, #ffe000 0%, #ff7f50 100%);
-    }
-    .card.banorte {
-      background: linear-gradient(135deg, #e60012 0%, #c10010 100%);
-    }
-    .card.bbva {
-      background: linear-gradient(135deg, #003087 0%, #007fff 100%);
     }
     @keyframes float {
       0%, 100% { transform: translateY(0); }
@@ -89,9 +74,6 @@
       display: flex;
       align-items: center;
       gap: 0.3rem;
-    }
-    .card-type i {
-      font-size: 1rem;
     }
     .chip {
       width: 12%; min-width: 40px;
@@ -185,10 +167,9 @@
     const titularComun  = "Andry Mallely Martínez García";
     const telefonoComun = "9381844237";
 
+    // Solo la tarjeta amarilla de Banco Azteca
     const cardsData = [
-      { banco: "Banco Azteca", cuenta: "4152 3140 4421 6003", clase: "azteca" },
-      { banco: "Banorte",       cuenta: "1234 5678 9012 3456", clase: "banorte" },
-      { banco: "BBVA",          cuenta: "6543 2109 8765 4321", clase: "bbva" }
+      { banco: "Banco Azteca", cuenta: "4152 3140 4421 6003" }
     ];
 
     function showModal(msg) {
@@ -203,10 +184,10 @@
         .catch(() => showModal("Error al copiar"));
     }
 
-    function renderCard({ banco, cuenta, clase }) {
+    function renderCard({ banco, cuenta }) {
       const wa = `https://wa.me/52${telefonoComun}`;
       return `
-        <div class="card ${clase}">
+        <div class="card">
           <div>
             <div class="bank-name">${banco}</div>
             <div class="card-type">
@@ -228,7 +209,7 @@
               </div>
             </div>
             <a class="phone" href="${wa}" target="_blank">
-              <i class="fa fa-phone"></i>${telefonoComun}
+           <i class="fa fa-phone"></i>${telefonoComun}
             </a>
           </div>
         </div>
