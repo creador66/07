@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Tarjeta Bancaria</title>
+  <title>Tarjeta bancaria IAEgo</title>
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
@@ -99,7 +99,8 @@
       100% { left: 100%; }
     }
     .account-number {
-      font-size: 0.9rem;
+      text-align:center;
+      font-size: 1.5rem;
       letter-spacing: 2px;
       font-weight: 500;
       cursor: pointer;
@@ -199,7 +200,7 @@
           </div>
           <div class="chip"></div>
           <div class="account-number" onclick="copyToClipboard('${cuenta}')">
-            Cuenta: ${cuenta}
+            ${cuenta}
           </div>
           <div class="card-footer">
             <div class="card-holder">
